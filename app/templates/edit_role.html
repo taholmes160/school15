@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Role{% endblock %}
+
+{% block content %}
+  <h2>Edit Role</h2>
+  <form method="post">
+    <div>
+      <label for="name">Role Name</label>
+      <input type="text" name="name" id="name" value="{{ role.name }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Role</button>
+  </form>
+{% endblock %}

@@ -25,4 +25,9 @@ def create_app(config_class=Config):
     from app.lookup_views import bp as lookup_bp
     app.register_blueprint(lookup_bp, url_prefix='/lookup')
 
+    # Register custom filter
+    @app.template_filter('get_role_groups')
+    def get_role_groups(role):
+        return [group.name for group in role.groups]
+
     return app

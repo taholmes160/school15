@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from app import db
-from app.models import User, Role
+from app.models import User, Role, RoleGroup
 from flask_login import login_user, logout_user, current_user, login_required
 from app.decorators import role_required
 
@@ -13,7 +13,8 @@ bp = Blueprint('views', __name__)
 @bp.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Home')
+    role_groups = [group.name for group in current_user.role.groups]
+    return render_template('index.html', title='Home', role_groups=role_groups)
 
 # User registration route
 @bp.route('/register', methods=['GET', 'POST'])
@@ -109,9 +110,18 @@ def profile():
 def faculty_only():
     return render_template('faculty_only.html', title='Faculty Only')
 
-# Edit user route
-@bp.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+# List users route (admin only)
+@bp.route('/admin/users')
 @login_required
+@role_required('admin')
+def list_users():
+    users = User.query.all()
+    return render_template('list_users.html', title='User List', users=users)
+
+# Edit user route (admin only)
+@bp.route('/admin/users/<int:user_id>/edit', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     roles = Role.query.all()
@@ -122,6 +132,6 @@ def edit_user(user_id):
         user.last_name = request.form['last_name']
         user.role_id = request.form['role_id']
         db.session.commit()
-        flash('User updated successfully.')
+        flash('User profile has been updated.')
         return redirect(url_for('views.list_users'))
-    return render_template('edit_user.html', user=user, roles=roles)
+    return render_template('edit_user.html', title='Edit User', user=user, roles=roles)

@@ -4,14 +4,16 @@
 
 {% block content %}
   <h2>Welcome, {{ current_user.username }}!</h2>
-  {% if current_user.role == 'student' %}
+  {% set role_groups = current_user.role|get_role_groups %}
+  <p>Detected role groups: {{ role_groups }}</p>
+  {% if 'student' in role_groups %}
     <p>You are logged in as a student.</p>
     <!-- Add student-specific content here -->
-  {% elif current_user.role == 'faculty' %}
+  {% elif 'faculty' in role_groups %}
     <p>You are logged in as a faculty member.</p>
     <a href="{{ url_for('views.faculty_only') }}" class="btn btn-primary">Faculty Only Page</a>
     <!-- Add faculty-specific content here -->
-  {% elif current_user.role == 'admin' %}
+  {% elif 'admin' in role_groups %}
     <p>You are logged in as an admin.</p>
     <a href="{{ url_for('views.faculty_only') }}" class="btn btn-primary">Faculty Only Page</a>
     <a href="{{ url_for('views.list_users') }}" class="btn btn-primary">User List</a>
