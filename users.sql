@@ -1,0 +1,121 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: mariadb:3306
+-- Generation Time: Sep 15, 2024 at 01:58 PM
+-- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
+-- PHP Version: 8.2.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `school10`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(80) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  `password_hash` varchar(512) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_verified` tinyint(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `first_name` varchar(80) DEFAULT NULL,
+  `last_name` varchar(80) DEFAULT NULL,
+  `profile_picture` varchar(120) DEFAULT NULL,
+  `bio` varchar(500) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `last_login_at` datetime DEFAULT NULL,
+  `login_attempts` int(11) DEFAULT NULL,
+  `password_reset_token` varchar(120) DEFAULT NULL,
+  `password_reset_expiration` datetime DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `timezone` varchar(50) DEFAULT NULL,
+  `is_admin` tinyint(1) DEFAULT NULL,
+  `deactivated_at` datetime DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `role_id`, `is_verified`, `created_at`, `updated_at`, `first_name`, `last_name`, `profile_picture`, `bio`, `phone_number`, `last_login_at`, `login_attempts`, `password_reset_token`, `password_reset_expiration`, `language`, `timezone`, `is_admin`, `deactivated_at`, `is_active`) VALUES
+(2024001, 'stu2024001', 'stu2024001@school.edu', 'scrypt:32768:8:1$IzaEiN4yaS9mkrtN$5582fc1898ce01927c23851a589022d5760dea2268001a86e2db816ba01f17aead90350475d1915f45c80c2b58db6b9c7f86d6b2a5fbc7711f55dfc933c36c2e', 19, NULL, NULL, '2024-06-16 16:37:38', 'Jeremy', 'Stitch', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024002, 'stu2024002', 'stu2024002@school.edu', 'scrypt:32768:8:1$1N3FhDEufG4GFB1S$83518ae47de00fc824cc5631e080848d0fe3889abfcbf26410ab7681552bc97386c3d320999866587476ae883b2cb7f88ee70b62c638cc94696862801a28400d', 19, NULL, NULL, '2024-06-16 16:37:38', 'Quinton', 'Kocher', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024003, 'stu2024003', 'stu2024003@school.edu', 'scrypt:32768:8:1$oVT7iqFAA0N2vPtL$3cc92f4324dcfce0904ec940ab8ce4595fac0329b9abcb8c7840406a7ad5ccc41569395485b8319fa937652549565bc9bd472d5c4d872b659c42e59077b4c46e', 19, NULL, NULL, '2024-06-16 16:37:38', 'Lander', 'Busse', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024004, 'stu2024004', 'stu2024004@school.edu', 'scrypt:32768:8:1$9GNpSQDxXnMHHrbK$0d7a55eeb0a429c946d901d1ab047c1b2f20ddd10eb48b5219b1e014628afb55e28d3b752be3ad3baa3b0398ab61c07a1179f65ccf2fd3eef895621ffdd42f84', 19, NULL, NULL, '2024-06-16 16:37:38', 'Badge', 'Busse', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024005, 'stu2024005', 'stu2024005@school.edu', 'scrypt:32768:8:1$rpuz8K0SeqBGK3oV$09668a183ea5104642f83d168fff85f37ec30431e28b7542fc9c27d77d59022de51601593260b1c5ee745f62d501574973f11561329ebef62e6cfe72d2405ffc', 19, NULL, NULL, '2024-06-16 16:37:38', 'Daniel', 'Beresky', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024006, 'stu2024006', 'stu2024006@school.edu', 'scrypt:32768:8:1$GK5U02kFZ023st2I$770bc63944f03a334d3470b37d4bf3a1b618daf099e5cba827b83f2cb9b01c4348ea941c58c21074a6d549d0557d5311f19d0041365b9fe4f8cf607a7eff318f', 19, NULL, NULL, '2024-06-16 16:37:38', 'David', 'Beresky', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024007, 'stu2024007', 'stu2024007@school.edu', 'scrypt:32768:8:1$pgK29hV8PXNXbCAL$7130863c9ba9b3abc326e6dc890def4bbdca1316a6d9612d1190b01804a3979d3a84bb5aee8d3e1dfc637a42144731635d9f2a2c32ad950c3e6f1ef12555540c', 19, NULL, NULL, '2024-06-16 16:37:38', 'Derek', 'Beresky', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024008, 'stu2024008', 'stu2024008@school.edu', 'scrypt:32768:8:1$5wuOeoXsnHcgRe4t$eb737ade9240d1bb3a5e192960d5929d4fcabdcb4fa8ee6421c8e1956fc594f71f30b30f5d136a49142f9664c3ebcef30be26570097f71ebcf4d3fc54c9fa808', 19, NULL, NULL, '2024-06-16 16:37:38', 'Ron', 'Allen', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024009, 'stu2024009', 'stu2024009@school.edu', 'scrypt:32768:8:1$Czw10EhbEUVeZvOK$96494b01cfd4b22183323f72a1508d4702bce2496dbe1b9ba4898fc262f305ca161ab84091cf2ab22f05f76cb8f4e14622a1024d9284e07d305abaf73d35a508', 19, NULL, NULL, '2024-06-16 16:37:38', 'William', 'Arthur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024010, 'stu2024010', 'stu2024010@school.edu', 'scrypt:32768:8:1$aJ9xrxcoKR82oZhm$bc351852890eaff8a5302f4bd1d9237ef53700a912cef2aa4ca64b430ac921791e38e946b5086ecea6888e6354beb65eca655aecfa9ee91fdb00426227a81b7d', 19, NULL, NULL, '2024-06-16 16:37:38', 'Jeff', 'Bania', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024011, 'stu2024011', 'stu2024011@school.edu', 'scrypt:32768:8:1$MMMimVcbvwb4Jtqq$6495b9985e1073a8827b816eea6c9e346cf270e699a521fe8fb348a7aa33e20e5abb64e71e3ce8b8f27dc944415fd082ab5975660977bd108435ed2cf22a4632', 19, NULL, NULL, '2024-06-16 16:37:38', 'Thomas', 'Brown', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024012, 'stu2024012', 'stu2024012@school.edu', 'scrypt:32768:8:1$SxBwBAASzXkB08ey$e0d069c06a14d8996dcdecc22095a1edb01305e5b9f593c3b4df388d270a04da06a7e15488fb335869a1cb489d6e9bccf9184b707975d8d0d17e1abe249988ce', 19, NULL, NULL, '2024-06-16 16:37:38', 'Jeff', 'Clay', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024013, 'stu2024013', 'stu2024013@school.edu', 'scrypt:32768:8:1$j0Gc38EAzJxmtE8W$7ce951ad7de55cb9721c73a23d6d83381b859fa28b501bc0983b91e81762ac9826a3a1ee4a1d353903e89716ed6147167022309ef1af4a12d966c86d8e379136', 19, NULL, NULL, '2024-06-16 16:37:38', 'Greg', 'Hochstetler', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024014, 'stu2024014', 'stu2024014@school.edu', 'scrypt:32768:8:1$R4WwOROcJA4NTvzh$90af08f7d4da005ad46c9656e4f96133a507c34fbb9ca2b62662c902e8ecfba2ac627c616a85af478fef31a7f99118256e8215238c801a73170ce066e41f0711', 19, NULL, NULL, '2024-06-16 16:37:38', 'Tim', 'Johnson', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024015, 'stu2024015', 'stu2024015@school.edu', 'scrypt:32768:8:1$TDIuE5YibRR5T2BS$a98c418d8c221eb3830fabbec20e82c44035a499a801e4de3d0d41d9938c3af618c425171e114c29536aeba2908de71f34daa81b124eceaa3d403ec9652da1fb', 19, NULL, NULL, '2024-06-16 16:37:38', 'Eric', 'Johnson', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024016, 'stu2024016', 'stu2024016@school.edu', 'scrypt:32768:8:1$ZjIDcLOOubvWY96n$5b8f63783cf54d89816847795942912398110cc1127da6b6d65122484bf00910d289edb80fd112f931770bce014473a8b74b0d0bad24e5ccfacf0e8c17b78d20', 19, NULL, NULL, '2024-06-16 16:37:38', 'Jerry', 'King', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024017, 'stu2024017', 'stu2024017@school.edu', 'scrypt:32768:8:1$LwZ8eY3hJ2YtLewG$8ecaf56118c58d5d1191025b2824ed7df616d4e3abfbf81da0afcbd8d7c2b17604d562b4ca01f30462cd9204f440d536c77020215741120607738501476541d9', 19, NULL, NULL, '2024-06-16 16:37:38', 'James', 'Lambright', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024018, 'stu2024018', 'stu2024018@school.edu', 'scrypt:32768:8:1$R83lJv1xVWZjXcmt$7c1b5519edabdbc5336793cfa30f3e48249b2543897900d70c955011ad7e2e89c7012ad674606990274c62cfe5ac506a8293d101f7d3a8d610cfbe46ec409317', 19, NULL, NULL, '2024-06-16 16:37:38', 'Heath', 'Lambright', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024019, 'stu2024019', 'stu2024019@school.edu', 'scrypt:32768:8:1$xeWlAZ8VhfLsxmIt$19668cdd10e36dbff80d70d127d9444f5bacbe92a336507e2467ed7c37295f3c1dd389fc96466924b4d59106f5404031a24902146861377ec9d90ed243c9da41', 19, NULL, NULL, '2024-06-16 16:37:38', 'Rod', 'Linville', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024020, 'stu2024020', 'stu2024020@school.edu', 'scrypt:32768:8:1$IPiadDjBc7eayPMU$0d60cc4ae6f39587662bda6b98c913243650c47edacc5b6295d91ed616232e6aabfafd499c09e7e5bf6b6bdfddb365f123351ef95758c8744492b2282d2eb909', 19, NULL, NULL, '2024-06-16 16:37:38', 'Brent', 'Lowe', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024021, 'stu2024021', 'stu2024021@school.edu', 'scrypt:32768:8:1$PmeaRKJMYxIGk45j$f57e6bdf220323986f121721664c3c8ee346055c55916c72afc7db874da6e714fbea09a18de01e1c0ca5def97e418c1cd427bf4fcab0e535a2fdc7d24568b903', 19, NULL, NULL, '2024-06-16 16:37:38', 'Rex', 'Lowe', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024022, 'stu2024022', 'stu2024022@school.edu', 'scrypt:32768:8:1$2imGj0ZayZq1sIqY$a15c8d9a72a8c0591bc98ec6221a0c141064689a1c05011968b12f5a54796c88b3b208dcc51cac03f673c00ee8da362857b3a1edb81c778d5b110b30c525c854', 19, NULL, NULL, '2024-06-16 16:37:38', 'Brian', 'Miller', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024023, 'stu2024023', 'stu2024023@school.edu', 'scrypt:32768:8:1$UBHledXwh41X3UmL$c998d0e14018a05c1aea5213ca35228f1192541e1242b014c662dfde2fb92db653aad435b1b435d8125c16eb7e65e865a4459d4b636a9612081b743552e4a78d', 19, NULL, NULL, '2024-06-16 16:37:38', 'Frank', 'Oren', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024024, 'stu2024024', 'stu2024024@school.edu', 'scrypt:32768:8:1$YxIMViIFCEZDNCYY$49bf696d0cc11cecf8a2ee87f74ec677c5fdbcf5771fcb56947326c7b3dcd5695f8a44a2770bfa7fec2ec03e1fe8e570dc3b5e3f9baa2e3827cd6fd1710bc800', 19, NULL, NULL, '2024-06-16 16:37:38', 'Matthew', 'Patsch', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2024025, 'stu2024025', 'stu2024025@school.edu', 'scrypt:32768:8:1$CfRYMtMriQ1Cbs3z$dc77d1814a52af0a3e2d196b84f1a6faa54bef5030f1f5aa0be0fcd438f3c838eae1639fb43f46c74a88240a8ab5528e5fd20d81b230a6d9daed71801bc162b9', 19, NULL, NULL, '2024-06-16 16:37:38', 'Chris', 'Ricker', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20240442;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
