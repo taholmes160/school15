@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from app import db
-from app.models import User
+from app.models import User, Role
 from flask_login import login_user, logout_user, current_user, login_required
 from app.decorators import role_required
 
@@ -13,29 +13,23 @@ bp = Blueprint('views', __name__)
 @bp.route('/index')
 @login_required
 def index():
-    """
-    Home page route. Requires user to be logged in.
-    """
     return render_template('index.html', title='Home')
 
 # User registration route
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
-    """
-    User registration route. Allows new users to register.
-    """
     if current_user.is_authenticated:
         return redirect(url_for('views.index'))
+    roles = Role.query.all()
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        role = request.form['role']
+        role_id = request.form['role_id']
         
-        # Basic validation
-        if not username or not email or not password or not first_name or not last_name or not role:
+        if not username or not email or not password or not first_name or not last_name or not role_id:
             flash('All fields are required.')
             return redirect(url_for('views.register'))
         
@@ -47,20 +41,17 @@ def register():
             flash('Email already registered.')
             return redirect(url_for('views.register'))
         
-        user = User(username=username, email=email, first_name=first_name, last_name=last_name, role=role)
+        user = User(username=username, email=email, first_name=first_name, last_name=last_name, role_id=role_id)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('views.login'))
-    return render_template('register.html', title='Register')
+    return render_template('register.html', title='Register', roles=roles)
 
 # User login route
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    User login route. Allows existing users to log in.
-    """
     if current_user.is_authenticated:
         return redirect(url_for('views.index'))
     if request.method == 'POST':
@@ -77,9 +68,6 @@ def login():
 # User logout route
 @bp.route('/logout')
 def logout():
-    """
-    User logout route. Logs out the current user.
-    """
     logout_user()
     return redirect(url_for('views.index'))
 
@@ -87,16 +75,12 @@ def logout():
 @bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    """
-    User profile route. Allows users to view and update their profile.
-    """
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         
-        # Basic validation
         if not username or not email or not first_name or not last_name:
             flash('All fields are required.')
             return redirect(url_for('views.profile'))
@@ -123,7 +107,21 @@ def profile():
 @login_required
 @role_required('faculty')
 def faculty_only():
-    """
-    Route accessible only to faculty members.
-    """
     return render_template('faculty_only.html', title='Faculty Only')
+
+# Edit user route
+@bp.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+    roles = Role.query.all()
+    if request.method == 'POST':
+        user.username = request.form['username']
+        user.email = request.form['email']
+        user.first_name = request.form['first_name']
+        user.last_name = request.form['last_name']
+        user.role_id = request.form['role_id']
+        db.session.commit()
+        flash('User updated successfully.')
+        return redirect(url_for('views.list_users'))
+    return render_template('edit_user.html', user=user, roles=roles)

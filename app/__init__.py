@@ -9,7 +9,7 @@ from config import Config
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
-login.login_view = 'views.login'  # Update this line
+login.login_view = 'views.login'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -21,5 +21,8 @@ def create_app(config_class=Config):
 
     from app.views import bp as views_bp
     app.register_blueprint(views_bp)
+
+    from app.lookup_views import bp as lookup_bp
+    app.register_blueprint(lookup_bp, url_prefix='/lookup')
 
     return app

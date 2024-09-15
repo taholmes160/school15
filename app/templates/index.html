@@ -9,6 +9,12 @@
     <!-- Add student-specific content here -->
   {% elif current_user.role == 'faculty' %}
     <p>You are logged in as a faculty member.</p>
+    <a href="{{ url_for('views.faculty_only') }}" class="btn btn-primary">Faculty Only Page</a>
     <!-- Add faculty-specific content here -->
+  {% elif current_user.role == 'admin' %}
+    <p>You are logged in as an admin.</p>
+    <a href="{{ url_for('views.faculty_only') }}" class="btn btn-primary">Faculty Only Page</a>
+    <a href="{{ url_for('views.list_users') }}" class="btn btn-primary">User List</a>
+    <!-- Add admin-specific content here -->
   {% endif %}
 {% endblock %}

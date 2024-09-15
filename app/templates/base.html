@@ -8,6 +8,20 @@
   </head>
   <body>
     <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('views.index') }}">School Management System</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('views.index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('lookup.list_roles') }}">Manage Roles</a>
+            </li>
+            <!-- Add more links as needed -->
+          </ul>
+        </div>
+      </nav>
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
