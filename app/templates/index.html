@@ -19,4 +19,8 @@
     <a href="{{ url_for('views.list_users') }}" class="btn btn-primary">User List</a>
     <!-- Add admin-specific content here -->
   {% endif %}
+  <a href="{{ url_for('views.register') }}" class="btn btn-primary">Register</a>
+  {% if 'other' in role_groups or 'admin' in role_groups or 'superadmin' in role_groups %}
+    <a href="{{ url_for('views.manual_student_entry') }}" class="btn btn-primary">Manual Student Entry</a>
+  {% endif %}
 {% endblock %}

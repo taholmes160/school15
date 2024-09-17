@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Manual Student Entry{% endblock %}
+
+{% block content %}
+  <h2>Manual Student Entry</h2>
+  <form method="POST" action="{{ url_for('views.manual_student_entry') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.first_name.label }} {{ form.first_name(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.last_name.label }} {{ form.last_name(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.role.label }} {{ form.role(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+{% endblock %}

@@ -1,10 +1,10 @@
 # app/decorators.py
-
+    
 from functools import wraps
 from flask import abort, current_app
 from flask_login import current_user
 
-SUPERUSER_ROLES = ['IT support', 'superadmin']  # Add any other superuser roles here
+SUPERUSER_ROLES = ['IT Support', 'superadmin']  # Add any other superuser roles here
 
 def role_required(role):
     def decorator(f):
@@ -14,6 +14,7 @@ def role_required(role):
             current_app.logger.debug(f"User {current_user.username} has role groups: {role_groups}")
             current_app.logger.debug(f"User {current_user.username} has role: {current_user.role.name}")
             if role not in role_groups and current_user.role.name not in SUPERUSER_ROLES:
+                current_app.logger.debug(f"Access denied for user {current_user.username} with role {current_user.role.name}")
                 abort(403)
             return f(*args, **kwargs)
         return decorated_function

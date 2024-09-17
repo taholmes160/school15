@@ -10,10 +10,14 @@ class RoleGroup(db.Model):
     name = db.Column(db.String(64), unique=True, nullable=False)
 
 class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, nullable=False)
-    groups = db.relationship('RoleGroup', secondary='role_group_memberships', backref=db.backref('roles', lazy='dynamic'))
+        __tablename__ = 'roles'
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(64), unique=True, nullable=False)
+        groups = db.relationship('RoleGroup', secondary='role_group_memberships', backref=db.backref('roles', lazy='dynamic'))
+    
+        def __str__(self):
+            return self.name
+    
 
 class RoleGroupMembership(db.Model):
     __tablename__ = 'role_group_memberships'

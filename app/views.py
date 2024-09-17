@@ -4,7 +4,10 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 from app import db
 from app.models import User, Role, RoleGroup
 from flask_login import login_user, logout_user, current_user, login_required
+from app.forms import ManualStudentEntryForm
 from app.decorators import role_required
+import datetime
+
 
 bp = Blueprint('views', __name__)
 
@@ -43,10 +46,10 @@ def register():
             return redirect(url_for('views.register'))
         
         user = User(username=username, email=email, first_name=first_name, last_name=last_name, role_id=role_id)
-        user.set_password(password)
+        user.set_password(password)  # Assuming you have a method to set the password hash
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Registration successful. Please log in.')
         return redirect(url_for('views.login'))
     return render_template('register.html', title='Register', roles=roles)
 
@@ -135,3 +138,42 @@ def edit_user(user_id):
         flash('User profile has been updated.')
         return redirect(url_for('views.list_users'))
     return render_template('edit_user.html', title='Edit User', user=user, roles=roles)
+
+
+# Function to generate a unique username
+def generate_username():
+    current_year = datetime.datetime.now().year
+    base_username = f"stu{current_year}"
+    last_user = User.query.filter(User.username.like(f"{base_username}%")).order_by(User.id.desc()).first()
+    if last_user:
+        last_number = int(last_user.username[-4:])
+        new_number = last_number + 1
+    else:
+        new_number = 442  # Starting number
+    return f"{base_username}{new_number:04d}"
+
+# Function to generate a unique email
+def generate_email(username):
+    return f"{username}@school.edu"
+
+# Route for manual student entry
+@bp.route('/admin/manual-student-entry', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def manual_student_entry():
+    form = ManualStudentEntryForm()
+    if form.validate_on_submit():
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        role_id = form.role.data
+        username = generate_username()
+        email = generate_email(username)
+        password = "school1234"  # Default password
+
+        user = User(username=username, email=email, first_name=first_name, last_name=last_name, role_id=role_id)
+        user.set_password(password)  # Assuming you have a method to set the password hash
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Student {first_name} {last_name} added successfully with username {username} and default password {password}.')
+        return redirect(url_for('views.manual_student_entry'))
+    return render_template('manual_student_entry.html', title='Manual Student Entry', form=form)

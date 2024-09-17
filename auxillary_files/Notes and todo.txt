@@ -1,0 +1,27 @@
+Fix user profile
+   needs tabs likebatch update has
+    
+change initial login routine so that user has to change password on first login
+
+add filter, by type of user to user list
+
+create and enable a color themes feature
+
+when filling out new student form, need to be able to have default password fill
+
+need setting page for DBA where can set things like theme, school logo graphic, default pass, school domain name
+
+Add user pictures
+
+Add logo pictures
+
+Add way to assign students to homerooms
+
+Create create user section for faculty, staff, parents and other roles
+
+Create classes (academic)
+
+Create sections of classes
+
+Create gradebook system
+
