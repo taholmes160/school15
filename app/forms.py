@@ -1,9 +1,9 @@
 # app/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
-from app.models import User, Role
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Optional
+from app.models import User, Role, Grade, Language, State
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -40,3 +40,24 @@ class ManualStudentEntryForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super(ManualStudentEntryForm, self).__init__(*args, **kwargs)
         self.role.choices = [(role.id, role.name) for role in Role.query.order_by('name')]
+
+class StudentProfileForm(FlaskForm):
+    age = IntegerField('Age', validators=[Optional()])
+    grade = SelectField('Grade', coerce=int, validators=[Optional()])
+    address1 = StringField('Address 1', validators=[Optional()])
+    address2 = StringField('Address 2', validators=[Optional()])
+    city = StringField('City', validators=[Optional()])
+    state = SelectField('State', coerce=int, validators=[Optional()])
+    zip = StringField('Zip', validators=[Optional()])
+    primary_language = SelectField('Primary Language', coerce=int, validators=[Optional()])
+    submit = SubmitField('Save')
+
+    def __init__(self, *args, **kwargs):
+        super(StudentProfileForm, self).__init__(*args, **kwargs)
+        self.grade.choices = [(grade.id, grade.name) for grade in Grade.query.order_by('name')]
+        self.primary_language.choices = [(language.id, language.name) for language in Language.query.order_by('name')]
+        self.state.choices = [(state.id, state.name) for state in State.query.order_by('name')]
+
+class NoteForm(FlaskForm):
+    note = TextAreaField('Note', validators=[DataRequired()])
+    submit = SubmitField('Add Note')

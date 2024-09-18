@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Student Profile{% endblock %}
+
+{% block content %}
+  <h2>Profile for {{ user.first_name }} {{ user.last_name }}</h2>
+  {% if has_role(current_user, 'admin') or has_role(current_user, 'office') %}
+    <form method="POST" action="{{ url_for('views.student_profile', user_id=user.id) }}">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.age.label }} {{ form.age(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.grade.label }} {{ form.grade(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.address1.label }} {{ form.address1(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.address2.label }} {{ form.address2(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.city.label }} {{ form.city(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.state.label }} {{ form.state(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.zip.label }} {{ form.zip(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.primary_language.label }} {{ form.primary_language(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+    </form>
+  {% else %}
+    <p><strong>Age:</strong> {{ user.student_profile.age or 'N/A' }}</p>
+    <p><strong>Grade:</strong> {{ user.student_profile.grade.name if user.student_profile.grade else 'N/A' }}</p>
+    <p><strong>Address 1:</strong> {{ user.student_profile.address1 or 'N/A' }}</p>
+    <p><strong>Address 2:</strong> {{ user.student_profile.address2 or 'N/A' }}</p>
+    <p><strong>City:</strong> {{ user.student_profile.city or 'N/A' }}</p>
+    <p><strong>State:</strong> {{ user.student_profile.state.name if user.student_profile.state else 'N/A' }}</p>
+    <p><strong>Zip:</strong> {{ user.student_profile.zip or 'N/A' }}</p>
+    <p><strong>Primary Language:</strong> {{ user.student_profile.primary_language.name if user.student_profile.primary_language else 'N/A' }}</p>
+  {% endif %}
+
+  <h3>Notes</h3>
+  <form method="POST" action="{{ url_for('views.student_profile', user_id=user.id) }}">
+    {{ note_form.hidden_tag() }}
+    <div class="form-group">
+      {{ note_form.note.label }} {{ note_form.note(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ note_form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+
+  <ul class="list-group">
+    {% for note in notes %}
+      <li class="list-group-item">
+        <strong>{{ note.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</strong>: {{ note.note }}
+        {% if has_role(current_user, 'admin') or has_role(current_user, 'office') %}
+          <a href="{{ url_for('views.edit_note', note_id=note.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form method="POST" action="{{ url_for('views.delete_note', note_id=note.id) }}" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
