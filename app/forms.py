@@ -57,7 +57,3 @@ class StudentProfileForm(FlaskForm):
         self.grade.choices = [(grade.id, grade.name) for grade in Grade.query.order_by('name')]
         self.primary_language.choices = [(language.id, language.name) for language in Language.query.order_by('name')]
         self.state.choices = [(state.id, state.name) for state in State.query.order_by('name')]
-
-class NoteForm(FlaskForm):
-    note = TextAreaField('Note', validators=[DataRequired()])
-    submit = SubmitField('Add Note')

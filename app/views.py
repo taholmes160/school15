@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 from app import db
 from app.models import User, Role, RoleGroup, Grade, Language, Note, StudentProfile
 from flask_login import login_user, logout_user, current_user, login_required
-from app.forms import ManualStudentEntryForm, StudentProfileForm, NoteForm
+from app.forms import ManualStudentEntryForm, StudentProfileForm
 from app.decorators import role_required
 import datetime
 from app.utils import has_role
@@ -183,7 +183,6 @@ def manual_student_entry():
 def has_role(user, role_name):
     return user.role.name == role_name
 
-# Route to view and edit student profile
 @bp.route('/student/<int:user_id>/profile', methods=['GET', 'POST'])
 @login_required
 def student_profile(user_id):
@@ -198,7 +197,6 @@ def student_profile(user_id):
         db.session.commit()
 
     form = StudentProfileForm(obj=user.student_profile)
-    note_form = NoteForm()
 
     if form.validate_on_submit() and (has_role(current_user, 'admin') or has_role(current_user, 'office') or has_role(current_user, 'IT Support')):
         user.student_profile.age = form.age.data
@@ -213,41 +211,4 @@ def student_profile(user_id):
         flash('Profile updated successfully.')
         return redirect(url_for('views.student_profile', user_id=user.id))
 
-    if note_form.validate_on_submit():
-        note = Note(user_id=user.id, note=note_form.note.data)
-        db.session.add(note)
-        db.session.commit()
-        flash('Note added successfully.')
-        return redirect(url_for('views.student_profile', user_id=user.id))
-
-    notes = Note.query.filter_by(user_id=user.id).order_by(Note.created_at.desc()).all()
-    return render_template('student_profile.html', title='Student Profile', form=form, note_form=note_form, user=user, notes=notes)
-
-# Route to edit a note
-@bp.route('/note/<int:note_id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_note(note_id):
-    note = Note.query.get_or_404(note_id)
-    if not (has_role(current_user, 'admin') or has_role(current_user, 'office') or has_role(current_user, 'IT Support')):
-        abort(403)
-
-    form = NoteForm(obj=note)
-    if form.validate_on_submit():
-        note.note = form.note.data
-        db.session.commit()
-        flash('Note updated successfully.')
-        return redirect(url_for('views.student_profile', user_id=note.user_id))
-    return render_template('edit_note.html', title='Edit Note', form=form, note=note)
-
-# Route to delete a note
-@bp.route('/note/<int:note_id>/delete', methods=['POST'])
-@login_required
-def delete_note(note_id):
-    note = Note.query.get_or_404(note_id)
-    if not (has_role(current_user, 'admin') or has_role(current_user, 'office') or has_role(current_user, 'IT Support')):
-        abort(403)
-
-    db.session.delete(note)
-    db.session.commit()
-    flash('Note deleted successfully.')
-    return redirect(url_for('views.student_profile', user_id=note.user_id))
+    return render_template('student_profile.html', title='Student Profile', form=form, user=user)
